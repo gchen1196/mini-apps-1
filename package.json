@@ -1,0 +1,29 @@
+{
+  "name": "hrsf116-mini-apps-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/babel --watch client --out-dir public --presets @babel/preset-react --source-maps inline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gchen1196/hrsf116-mini-apps-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gchen1196/hrsf116-mini-apps-1/issues"
+  },
+  "homepage": "https://github.com/gchen1196/hrsf116-mini-apps-1#readme",
+  "dependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "nodemon": "^1.19.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
