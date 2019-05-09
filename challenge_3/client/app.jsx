@@ -2,15 +2,20 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage : 'HomePage'
+      currentPage : 'HomePage',
+      F1data: {}
     }
     this.changeHome = this.changeHome.bind(this);
     this.changeF1 = this.changeF1.bind(this);
     this.changeF2 = this.changeF2.bind(this);
     this.changeF3 = this.changeF3.bind(this);
     this.changeConfirmation = this.changeConfirmation.bind(this);
+    this.getInfo = this.getInfo.bind(this);
   }
-
+  getInfo(info) {
+    console.log("THIS IS STATE", info)
+    this.setState({F1data: info});
+  }
   changeHome() {
     this.setState({currentPage: 'F1'});
   }
@@ -33,10 +38,10 @@ class App extends React.Component {
 
   render() {
     if (this.state.currentPage === 'HomePage') {
-      return <HomePage changeHome={this.changeHome}/>
+      return <HomePage changeHome={this.changeHome} />
     }
     if (this.state.currentPage === 'F1') {
-      return <F1 changeF1={this.changeF1}/>
+      return <F1 changeF1={this.changeF1} getInfo={this.getInfo}/>
     }
     if (this.state.currentPage === 'F2') {
       return <F2 changeF2={this.changeF2}/>
@@ -78,10 +83,15 @@ class HomePage extends React.Component {
 class F1 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      name: '',
+      email: '',
+      password: ''
+    };
   }
 
   onFormSubmit(e) {
+    this.props.getInfo(this.state);
     e.preventDefault();
     this.props.changeF1();
   }
@@ -93,17 +103,17 @@ class F1 extends React.Component {
         <form onSubmit={(e) => this.onFormSubmit(e)}>
           <label>
             Name:
-            <input type='text' name='name' />
+            <input type='text' name='name' onChange={(e) => this.setState({name: e.target.value})}/>
           </label>
           <div/>
           <label>
             Email:
-            <input type='text' name='email' />
+            <input type='text' name='email' onChange={(e) => this.setState({email: e.target.value})}/>
           </label>
           <div />
           <label>
             Password:
-            <input type='text' name='password' />
+            <input type='text' name='password' onChange={(e) => this.setState({password: e.target.value})}/>
           </label>
           <button>Next</button>
         </form>
@@ -115,7 +125,13 @@ class F1 extends React.Component {
 class F2 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      line1: '',
+      line2: '',
+      city: '',
+      state: '',
+      zipcode: ''
+    };
   }
 
   onFormSubmit(e) {
@@ -130,25 +146,25 @@ class F2 extends React.Component {
         <form onSubmit={(e) => this.onFormSubmit(e)}>
           <label>
             Address Line 1:
-            <input type='text' name='line1'/>
+            <input type='text' name='line1' onChange={(e) => this.setState({line1: e.target.value})}/>
           </label>
           <div />
           <label>
             Address Line 2:
-            <input type='text' name='line2'/>
+            <input type='text' name='line2' onChange={(e) => this.setState({line2: e.target.value})}/>
           </label>
           <div />
           <label>
             City:
-            <input type='text' name='city'/>
+            <input type='text' name='city' onChange={(e) => this.setState({city: e.target.value})}/>
           </label>
           <label>
             State:
-            <input type='text' name='state'/>
+            <input type='text' name='state' onChange={(e) => this.setState({state: e.target.value})}/>
           </label>
           <label>
             Zip Code:
-            <input type='text' name='zipcode'/>
+            <input type='text' name='zipcode' onChange={(e) => this.setState({zipcode: e.target.value})}/>
           </label>
           <button>Next</button>
         </form>
@@ -160,7 +176,12 @@ class F2 extends React.Component {
 class F3 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      ccnumber: '',
+      date: '',
+      cvv: '',
+      billingzip: ''
+    };
   }
   onFormSubmit(e) {
     e.preventDefault();
@@ -174,20 +195,20 @@ class F3 extends React.Component {
         <form onSubmit={(e) => this.onFormSubmit(e)}>
           <label>
             Credit Card #:
-            <input type='text' name='ccnumber'></input>
+            <input type='text' name='ccnumber' onChange={(e) => this.setState({ccnumber: e.target.value})}></input>
           </label>
           <div />
           <label>
             Expiry Date:
-            <input type='text' name='date'></input>
+            <input type='text' name='date' onChange={(e) => this.setState({date: e.target.value})}></input>
           </label>
           <label>
             CVV:
-            <input type='text' name='cvv'></input>
+            <input type='text' name='cvv' onChange={(e) => this.setState({cvv: e.target.value})}></input>
           </label>
           <label>
             Zip Code:
-            <input type='text' name='billingzip'></input>
+            <input type='text' name='billingzip' onChange={(e) => this.setState({billingzip: e.target.value})}></input>
           </label>
           <button>Next</button>
         </form>
