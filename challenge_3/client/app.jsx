@@ -2,20 +2,44 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage : 'F1'
+      currentPage : 'HomePage'
     }
+    this.changeHome = this.changeHome.bind(this);
+    this.changeF1 = this.changeF1.bind(this);
+    this.changeF2 = this.changeF2.bind(this);
+    this.changeF3 = this.changeF3.bind(this);
+  }
+
+  changeHome() {
+    this.setState({currentPage: 'F1'});
+  }
+
+  changeF1() {
+    this.setState({currentPage: 'F2'});
+  }
+
+  changeF2() {
+    this.setState({currentPage: 'F3'});
+  }
+
+  changeF3() {
+    this.setState({currentPage: 'HomePage'});
   }
 
   render() {
-    return(
-    <div>
-      <HomePage />
-      <F1 />
-      <F2 />
-      <F3 />
-    </div>
+    if (this.state.currentPage === 'HomePage') {
+      return <HomePage changeHome={this.changeHome}/>
+    }
+    if (this.state.currentPage === 'F1') {
+      return <F1 changeF1={this.changeF1}/>
+    }
+    if (this.state.currentPage === 'F2') {
+      return <F2 changeF2={this.changeF2}/>
+    }
+    if (this.state.currentPage === 'F3') {
+      return <F3 changeF3={this.changeF3}/>
+    }
 
-    )
   }
 }
 
@@ -26,7 +50,11 @@ class HomePage extends React.Component {
       
     }
   };
-
+  onFormSubmit(e) {
+    e.preventDefault();
+    //want to pass e back to App 
+    this.props.changeHome();
+  }
   render() {
     return (
       <div>
@@ -42,17 +70,19 @@ class HomePage extends React.Component {
 class F1 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      
-    };
+    this.state = {};
   }
 
+  onFormSubmit(e) {
+    e.preventDefault();
+    this.props.changeF1();
+  }
 
   render() {
     return(
       <div>
         <h2>Account Login</h2>
-        <form>
+        <form onSubmit={(e) => this.onFormSubmit(e)}>
           <label>
             Name:
             <input type='text' name='name' />
@@ -77,16 +107,19 @@ class F1 extends React.Component {
 class F2 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = {};
+  }
 
-    }
+  onFormSubmit(e) {
+    e.preventDefault();
+    this.props.changeF2();
   }
 
   render() {
     return (
       <div>
         <h2>Address</h2>
-        <form>
+        <form onSubmit={(e) => this.onFormSubmit(e)}>
           <label>
             Address Line 1:
             <input type='text' name='line1'/>
@@ -119,16 +152,18 @@ class F2 extends React.Component {
 class F3 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
+    this.state = {};
+  }
+  onFormSubmit(e) {
+    e.preventDefault();
+    this.props.changeF3();
   }
 
   render() {
     return (
       <div>
         <h2>Checkout</h2>
-        <form>
+        <form onSubmit={(e) => this.onFormSubmit(e)}>
           <label>
             Credit Card #:
             <input type='text' name='ccnumber'></input>
