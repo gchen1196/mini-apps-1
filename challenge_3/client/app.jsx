@@ -8,6 +8,7 @@ class App extends React.Component {
     this.changeF1 = this.changeF1.bind(this);
     this.changeF2 = this.changeF2.bind(this);
     this.changeF3 = this.changeF3.bind(this);
+    this.changeConfirmation = this.changeConfirmation.bind(this);
   }
 
   changeHome() {
@@ -23,6 +24,10 @@ class App extends React.Component {
   }
 
   changeF3() {
+    this.setState({currentPage: 'Confirmation'});
+  }
+
+  changeConfirmation() {
     this.setState({currentPage: 'HomePage'});
   }
 
@@ -38,6 +43,9 @@ class App extends React.Component {
     }
     if (this.state.currentPage === 'F3') {
       return <F3 changeF3={this.changeF3}/>
+    }
+    if (this.state.currentPage === 'Confirmation') {
+      return <Confirmation changeConfirmation={this.changeConfirmation}/>
     }
 
   }
@@ -77,7 +85,7 @@ class F1 extends React.Component {
     e.preventDefault();
     this.props.changeF1();
   }
-
+  
   render() {
     return(
       <div>
@@ -181,11 +189,32 @@ class F3 extends React.Component {
             Zip Code:
             <input type='text' name='billingzip'></input>
           </label>
-          <button>Purchase</button>
+          <button>Next</button>
         </form>
       </div>
     )
   }
 }
 
+class Confirmation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  onClickButton(e) {
+    this.props.changeConfirmation();
+  }
+
+  render() {
+    return(
+      <div>
+        <h2>Confirmation Page</h2>
+        <button onClick={(e) => this.onClickButton(e)}>Purchase</button>
+      </div>
+    )
+  }
+}
 ReactDOM.render(<App/>, document.getElementById('root'))
