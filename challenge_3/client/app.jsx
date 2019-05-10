@@ -1,9 +1,9 @@
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage : 'HomePage',
-      F1data: {}
+      currentPage : 'HomePage'
     }
     this.changeHome = this.changeHome.bind(this);
     this.changeF1 = this.changeF1.bind(this);
@@ -12,9 +12,9 @@ class App extends React.Component {
     this.changeConfirmation = this.changeConfirmation.bind(this);
     this.getInfo = this.getInfo.bind(this);
   }
-  getInfo(info) {
-    console.log("THIS IS STATE", info)
-    this.setState({F1data: info});
+
+  getInfo(state) {
+    this.setState(state);
   }
   changeHome() {
     this.setState({currentPage: 'F1'});
@@ -44,13 +44,13 @@ class App extends React.Component {
       return <F1 changeF1={this.changeF1} getInfo={this.getInfo}/>
     }
     if (this.state.currentPage === 'F2') {
-      return <F2 changeF2={this.changeF2}/>
+      return <F2 changeF2={this.changeF2} getInfo={this.getInfo}/>
     }
     if (this.state.currentPage === 'F3') {
-      return <F3 changeF3={this.changeF3}/>
+      return <F3 changeF3={this.changeF3} getInfo={this.getInfo}/>
     }
     if (this.state.currentPage === 'Confirmation') {
-      return <Confirmation changeConfirmation={this.changeConfirmation}/>
+      return <Confirmation states={this.state} changeConfirmation={this.changeConfirmation} />
     }
 
   }
@@ -88,11 +88,23 @@ class F1 extends React.Component {
       email: '',
       password: ''
     };
+    // this.postReq = this.postReq.bind(this);
   }
 
+  // postReq(info) {
+  //   axios.post('/user', info)
+  //   .then(function (response) {
+  //     console.log("Information posted");
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  // };
+
   onFormSubmit(e) {
-    this.props.getInfo(this.state);
     e.preventDefault();
+    // this.postReq(this.state);
+    this.props.getInfo(this.state);
     this.props.changeF1();
   }
   
@@ -136,6 +148,7 @@ class F2 extends React.Component {
 
   onFormSubmit(e) {
     e.preventDefault();
+    this.props.getInfo(this.state);
     this.props.changeF2();
   }
 
@@ -183,8 +196,10 @@ class F3 extends React.Component {
       billingzip: ''
     };
   }
+
   onFormSubmit(e) {
     e.preventDefault();
+    this.props.getInfo(this.state);
     this.props.changeF3();
   }
 
@@ -221,11 +236,34 @@ class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
     };
+    this.displayInfo = this.displayInfo.bind(this);
+    this.postInfo = this.postInfo.bind(this);
   }
 
+  displayInfo() {
+    axios.get('/user')
+    .then((data) => {
+      this.setState(data);
+    })
+    .catch((error) => {
+      console.log('failed to fetch data');
+    })
+  }
+
+  postInfo(info) {
+    axios.post('/user', info)
+    .then((response) => console.log('successfully posted'))
+    .catch((error) => console.log('try again'));
+  }
+
+  onClickToShow(e) {
+    e.preventDefault();
+    this.displayInfo();
+  }
+  
   onClickButton(e) {
+    this.postInfo(this.props.states);
     this.props.changeConfirmation();
   }
 
@@ -233,6 +271,30 @@ class Confirmation extends React.Component {
     return(
       <div>
         <h2>Confirmation Page</h2>
+        <button onClick={(e) => this.onClickToShow(e)}>Display Info</button>
+        <table>
+          <tr>
+            <td>{this.state.name}</td>
+            <td>{this.state.email}</td>
+          </tr>
+          <tr>
+            <td>{this.state.line1}</td>
+          </tr>
+          <tr>
+            <td>{this.state.line2}</td>
+          </tr>
+          <tr>
+            <td>{this.state.city}</td>
+            <td>{this.state.state}</td>
+            <td>{this.state.zipcode}</td>
+          </tr>
+          <tr>
+            <td>{this.state.ccnumber}</td>
+            <td>{this.state.date}</td>
+            <td>{this.state.cvv}</td>
+            <td>{this.state.billingzip}</td>
+          </tr>
+        </table>
         <button onClick={(e) => this.onClickButton(e)}>Purchase</button>
       </div>
     )
